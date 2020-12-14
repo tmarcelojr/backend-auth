@@ -63,12 +63,12 @@ app.use(methodOverride('_method'))
 // SESSIONS
 app.use(session({
 	secret: process.env.SESSION_SECRET,
-	resave: false,
-  saveUninitialized: false,
-  cookie: {
-    httpOnly: false,
-    secure: true
-  }
+	resave: true,
+  saveUninitialized: true,
+  // cookie: {
+  //   httpOnly: false,
+  //   secure: true
+  // }
 }))
 
 
