@@ -90,7 +90,7 @@ app.post('/register', async (req, res, next) => {
 	}
 	else {
     console.log('not found one')
-    // console.log('we are in register - res', res)
+    console.log('we are in register - res - CHECK', res)
 		const createdUser =await User.create({
 			username: desiredUsername,
 			password: desiredPassword
