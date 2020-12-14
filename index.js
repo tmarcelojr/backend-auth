@@ -90,8 +90,8 @@ app.post('/register', async (req, res, next) => {
     console.log('exists', req.session)
 	}
 	else {
-    console.log('not found one')
-    console.log('we are in register - res - CHECK', res)
+    // console.log('not found one')
+    // console.log('we are in register - res - CHECK', res)
 		const createdUser =await User.create({
 			username: desiredUsername,
 			password: desiredPassword
@@ -100,7 +100,7 @@ app.post('/register', async (req, res, next) => {
 		req.session.userId = createdUser._id
 		req.session.username = createdUser.username
     req.session.message = "Thank you for signing up, " + createdUser.username + "."
-    console.log('successful sess', req.session)
+    // console.log('successful sess', req.session)
     console.log('successful registration');
     res.send(req.session)
 	}
