@@ -63,7 +63,11 @@ app.use(methodOverride('_method'))
 app.use(session({
 	secret: process.env.SESSION_SECRET,
 	resave: false,
-	saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: false,
+    secure: true
+  }
 }))
 
 
@@ -71,19 +75,23 @@ app.use(session({
 
 // REGISTER
 app.post('/register', async (req, res, next) => {
-	// console.log('what is going on', req.body);
+  console.log('!!!!!!!!!!')
+	console.log('what is going on', req.body);
 	const desiredUsername = req.body.username
 	const desiredPassword = req.body.password
 	const userWithThisUsername = await User.findOne({
 		username: desiredUsername
 	})
-	console.log(userWithThisUsername);
+  console.log(userWithThisUsername);
 	if(userWithThisUsername) {
-		req.session.message = `Username ${desiredUsername} already taken.`
+    console.log('found one')
+    req.session.message = `Username ${desiredUsername} already taken.`
+    console.log('exists', req.session)
 	}
 	else {
+    console.log('not found one')
     // console.log('we are in register - res', res)
-		const createdUser = await User.create({
+		const createdUser =await User.create({
 			username: desiredUsername,
 			password: desiredPassword
 		})
