@@ -101,7 +101,8 @@ app.post('/register', async (req, res, next) => {
 		req.session.username = createdUser.username
     req.session.message = "Thank you for signing up, " + createdUser.username + "."
     console.log('successful sess', req.session)
-		console.log('successful registration');
+    console.log('successful registration');
+    res.send(req.session)
 	}
 })
 
