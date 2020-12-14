@@ -47,7 +47,8 @@ mongoose.connection.on('error', (err) => {
 // CORS
 app.use(
 	cors({
-		origin: ['http://localhost:3000', 'https://c-auth.herokuapp.com'],
+    origin: '*',
+		// origin: ['http://localhost:3000', 'https://c-auth.herokuapp.com'],
 		credentials: true
 	})
 );
