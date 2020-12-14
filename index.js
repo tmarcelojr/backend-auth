@@ -72,7 +72,7 @@ app.post('/register', async (req, res, next) => {
 		req.session.message = `Username ${desiredUsername} already taken.`
 	}
 	else {
-    console.log('we are in register - res', res)
+    // console.log('we are in register - res', res)
 		const createdUser = await User.create({
 			username: desiredUsername,
 			password: desiredPassword
