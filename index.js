@@ -6,7 +6,6 @@ const session = require('express-session');
 const methodOverride = require('method-override');
 const cors = require('cors');
 const User = require('./user');
-const MongoStore = require('connect-mongo')(session);
 
 app.use(function(req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
@@ -21,7 +20,6 @@ app.use(function(req, res, next) {
 
 // CONNECTION
 const mongoose = require('mongoose');
-const { reset } = require('nodemon');
 
 const connectionString = process.env.DB_URL;
 
@@ -66,13 +64,8 @@ app.use(methodOverride('_method'));
 app.use(
 	session({
 		secret: process.env.SESSION_SECRET,
-		resave: false,
-		saveUninitialized: false,
-		store: new MongoStore({
-			mongooseConnection: mongoose.connection,
-			ttl: 14 * 24 * 60 * 60
-		})
-	})
+		resave: true,
+		saveUninitialized: true,
 );
 
 app.use(passport.initialize());
@@ -82,8 +75,6 @@ app.use(passport.session());
 
 // REGISTER
 app.post('/register', async (req, res, next) => {
-	console.log('!!!!!!!!!!');
-	console.log('what is going on', req.body);
 	const desiredUsername = req.body.username;
 	const desiredPassword = req.body.password;
 	const userWithThisUsername = await User.findOne({
@@ -91,7 +82,6 @@ app.post('/register', async (req, res, next) => {
 	});
 	console.log(userWithThisUsername);
 	if (userWithThisUsername) {
-		console.log('found one');
 		req.session.message = `Username ${desiredUsername} already taken.`;
 		console.log('exists', req.session);
 	} else {
@@ -119,13 +109,10 @@ app.post('/login', async (req, res, next) => {
 		req.session.message = 'Invalid username or password.';
 	} else {
 		if (user.password == req.body.password) {
-			console.log('did we make it in here');
-			console.log('we have session', req.session);
 			req.session.loggedIn = true;
 			req.session.userId = user._id;
 			req.session.username = user.username;
 			req.session.message = 'Welcome back, ' + user.username + '.';
-			console.log('after', req.session);
 			res.send(req.session);
 		} else {
 			req.session.message = 'Invalid username or password.';
