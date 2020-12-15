@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser')
 const session = require('express-session');
 const methodOverride = require('method-override');
 const cors = require('cors');
@@ -28,7 +27,7 @@ console.log('connection string', connectionString);
 
 mongoose.connect(connectionString, {
 	useNewUrlParser: true,
-	// useUnifiedTopology: true,
+	useUnifiedTopology: true,
 	useFindAndModify: false
 });
 
@@ -48,20 +47,17 @@ mongoose.connection.on('error', (err) => {
 // CORS
 app.use(
 	cors({
-		// origin: '*',
 		origin: [ 'http://localhost:3000', 'https://c-auth.herokuapp.com' ],
 		credentials: true
 	})
 );
 
 // BODY PARSER
-// app.use(cookieParser())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // METHOD OVERRIDE
 app.use(methodOverride('_method'));
-
 
 
 // SESSIONS
