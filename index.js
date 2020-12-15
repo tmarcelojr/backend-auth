@@ -60,11 +60,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // METHOD OVERRIDE
 app.use(methodOverride('_method'));
 
+
+app.set('trust proxy', true)
 // SESSIONS
 app.use(
 	session({
 		secret: process.env.SESSION_SECRET,
-		resave: true,
+		resave: false,
 		saveUninitialized: true
 		})
 )
