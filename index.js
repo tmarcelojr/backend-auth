@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser')
 const session = require('express-session');
 const methodOverride = require('method-override');
 const cors = require('cors');
@@ -61,8 +62,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride('_method'));
 
 
-app.set('trust proxy', true)
+
 // SESSIONS
+app.use(cookieParser())
 app.use(
 	session({
 		secret: process.env.SESSION_SECRET,
